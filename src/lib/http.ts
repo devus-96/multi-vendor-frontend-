@@ -2,6 +2,10 @@
 
 import axios, { AxiosHeaders, AxiosInstance, AxiosRequestHeaders } from 'axios';
 
+axios.get('/sanctum/csrf-cookie').then(response => {
+    // Login...
+});
+
 export function client(customHeaders: Partial<AxiosRequestHeaders> = {}): AxiosInstance {
 
     const defaultHeaders: Partial<AxiosRequestHeaders> = {
@@ -14,6 +18,7 @@ export function client(customHeaders: Partial<AxiosRequestHeaders> = {}): AxiosI
             ...customHeaders,
         },
         withCredentials: true,
+        withXSRFToken: true
     });
 }
 
@@ -31,7 +36,8 @@ export const apiClient = (): AxiosInstance => {
     const instance = axios.create({
         headers,
         withCredentials: true,
-        baseURL: '/api/',
+        withXSRFToken: true,
+        baseURL: 'http://api.monsite-dev.com',
     });
 
     instance.interceptors.response.use(
